@@ -3,7 +3,8 @@ import "./App.css";
 import {
     GoogleMap,
     useLoadScript,
-    Marker
+    Marker,
+    InfoWindow
 } from "@react-google-maps/api";
 
 export default function Home() {
@@ -42,8 +43,27 @@ function Map() {
                 <Marker
                     key={marker.time.toISOString()}
                     position={{ lat: marker.lat, lng: marker.lng }}
+                    onClick={() => {
+                        setSelected(marker);
+                    }}
                 />
             ))}
+
+            {selected ? (
+                <InfoWindow
+                    position={{ lat: selected.lat, lng: selected.lng }}
+                    onCloseClick={() => {
+                        setSelected(null);
+                    }}
+                >
+                    <div>
+                        <h2>
+                            Location Added!
+                        </h2>
+                        <p>Pertinent information about the Location</p>
+                    </div>
+                </InfoWindow>) : null}
+            
         </GoogleMap>
     );
 }
